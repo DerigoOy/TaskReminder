@@ -1,0 +1,225 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width" />
+
+    <style>
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+            font-size: 14px;
+        }
+
+        .red {
+            color: crimson;
+        }
+
+        .green {
+            color: limegreen;
+        }
+
+        div > table {
+            margin-bottom: 20px;
+        }
+
+        table {
+            table-layout: fixed;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+            background: #fff;
+            width: 950px !important;
+            border-spacing: 0;
+        }
+
+            table td {
+                border-color: #18173c;
+                ms-word-wrap: break-word;
+                word-break: break-word;
+                vertical-align: top;
+                padding: 4px;
+            }
+
+            table table th {
+                border-bottom: 1px solid #eee;
+                padding-bottom: 6px;
+            }
+
+        .project-header-td {
+            background: #18173c;
+            color: #fff;
+            border-color: #18173c;
+            ms-border-color: #18173c;
+            font-size: 15px;
+        }
+
+        .header-td {
+            background: #1461db;
+            border-color: #1461db;
+            color: #fff;
+            font-size: 15px;
+            padding: 4px;
+        }
+
+        .breakwords {
+            display: inline-block;
+            word-break: break-word;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <p>Hei,</p>
+    </div>
+    <div>
+        <p>Følgende oppgaver er definert for deg: </p>
+    </div>
+
+    <div style="max-width:950px;">
+        @foreach (var project in Model.Projects)
+        {
+            <table border="1" cellpadding="5" cellspacing="0">
+                <tr>
+                    <td class="project-header-td" width="100">Prosjekt</td>
+                    <td width='800'>
+                        <b><a href="@project.Web.Url">@project.GetString("Title")</a></b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="project-header-td">Prosjektnummer</td>
+                    <td>
+                        @project.GetString("Prosjektnummer")
+                    </td>
+                </tr>
+
+                @if (project.Contains("Tasks"))
+                {
+                    <tr>
+                        <td colspan="2" class="header-td">Oppgaver</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <table border="0" cellpadding="5" cellspacing="0">
+                                <tr>
+                                    <th width="33%" align='left'>Tittel</th>
+                                    <th width="33%" align='left'>Tilordnet til</th>
+                                    <th width="33%" align='left'>Forfallsdato</th>
+                                </tr>
+                                @foreach (var task in project.Tasks)
+                                {
+                                    <tr>
+                                        <td>
+                                            <div class="breakwords">
+                                                <a href="@project.Link/SitePages/default.aspx?Tab=Tehtävälista#/project">@task.GetString("Title")</a>
+                                            </div>
+                                        </td>
+                                        <td>@task.AssignedTo.Title</td>
+                                        <td class="@(task.IsLate ? " red" : "" )">@task.GetFormattedDate("DueDate") <span>(@task.GetInteger("BeforeDueDate"))</span></td>
+                                    </tr>
+                                }
+                            </table>
+                        </td>
+                    </tr>
+                }
+
+                @if (project.Contains("ProjectRisksTasks"))
+                {
+                    <tr>
+                        <td colspan="2" class="header-td">Risikotiltak</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <table border="0" cellpadding="5" cellspacing="0">
+                                <tr>
+                                    <th width="30%" align='left'>Tittel</th>
+                                    <th width="30%" align='left'>Risiko</th>
+                                    <th width="20%" align='left'>Risikoeier</th>
+                                    <th width="20%" align='left'>Frist</th>
+                                </tr>
+                                @foreach (var task in project.ProjectRisksTasks)
+                                {
+                                    <tr>
+                                        <td>
+                                            <div class="breakwords">
+                                                <a href="@project.Link/SitePages/default.aspx?Tab=Tehtävälista#/project">@task.GetString("Title")</a>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="breakwords">@(task.Risk != null ? task.Risk.Title : "")</div>
+                                        </td>
+                                        <td>@task.AssignedTo.GetUserNames()</td>
+                                        <td class="@(task.IsLate ? " red" : "" )">
+                                            @task.GetFormattedDate("DueDate") <span>(@task.GetInteger("BeforeDueDate"))</span>
+                                        </td>
+                                    </tr>
+                                }
+                            </table>
+                        </td>
+                    </tr>
+                }
+
+                @if (project.Contains("FormWorkflows"))
+                {
+                    <tr>
+                        <td colspan="2" class="header-td">Skjemaer som krever behandling</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <table border="0" cellpadding="5" cellspacing="0">
+                                <tr>
+                                    <th width="33%" align='left'>Tittel</th>
+                                    <th width="33%" align='left'>Akseptør</th>
+                                    <th width="33%" align='left'>Link</th>
+                                </tr>
+                                @foreach (var workflow in project["FormWorkflows"])
+                                {
+                                    <tr>
+                                        <td>
+                                            @workflow.FormData["Title"]
+                                        </td>
+                                        <td>@workflow.WorkFlow.AssignedTo.Title</td>
+                                        <td>@workflow.EditLink</td>
+                                    </tr>
+                                }
+                            </table>
+                        </td>
+                    </tr>
+                }
+
+                @if (project.Contains("FormNotifications"))
+                {
+                    <tr>
+                        <td colspan="2" class="header-td">Melding om opprettelse av skjema</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <table border="0" cellpadding="5" cellspacing="0">
+                                <tr>
+                                    <th width="33%" align='left'>Tittel</th>
+                                    <th width="33%" align='left'>Laget av</th>
+                                    <th width="33%" align='left'>Opprettet</th>
+                                    <th width="33%" align='left'>Link</th>
+                                </tr>
+                                @foreach (var notification in project["FormNotifications"])
+                                {
+                                    <tr>
+                                        <td>@notification.Title</td>
+                                        <td>@notification.CreatedBy.Title</td>
+                                        <td>@Model.GetFormattedDateTime(notification.Created)</td>
+                                        <td>@notification.EditLink</td>
+                                    </tr>
+                                }
+                            </table>
+                        </td>
+                    </tr>
+                }
+            </table>
+            <p>&nbsp;</p>
+        }
+    </div>
+    <div></div>
+    <div>
+        <p>&nbsp;</p>
+    </div>
+
+</body>
+</html>

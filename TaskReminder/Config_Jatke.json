@@ -1,0 +1,57 @@
+﻿{
+  "Culture": 1035,
+  "WebAppPath": "https://jatke.pro3.fi",
+  "Send": true,
+  "LogCounts": false,
+  "SMTP": {
+    "Host": "smtp.ateafinland.fi",
+    "Port": 25,
+    "SSL": false,
+    "AllEmailsTo": null,
+    "OnlySendTo": null
+  },
+  "Email": {
+    "Header": "Pro3: Muistutus tehtävistä",
+    "BodyTemplateFile": "mailbody.cshtml"
+  },
+  "ProjectFilters": [
+    {
+      "SiteUrl": "",
+      "Query": "<Where><And><Neq><FieldRef Name='ProjectStatus'/><Value Type='Choice'>5 Ohi</Value></Neq><Neq><FieldRef Name='ProjectStatus'/><Value Type='Choice'>8 Ei tarjota</Value></Neq></And></Where>"
+    }
+  ],
+  "ProcessTasks": [
+    {
+      "ListName": "Tasks",
+      "Enabled": true,
+      "Filters": [
+        {
+          "WeekDay": 1,
+          "OffsetDays": 7,
+          "UntilOffsetDays": -60
+        }
+      ]
+    }
+  ],
+  "MobileForms": {
+    "Notifications": {
+      "Enabled": true,
+      "Filters": [
+        {
+          "FieldName": "Created",
+          "WeekDay": 1,
+          "UntilOffsetDays": -7
+        }
+      ]
+    },
+    "WorkFlows": {
+      "Enabled": true,
+      "Filters": [
+        {
+          "WeekDay": 1,
+          "OffsetDays": 7
+        }
+      ]
+    }
+  }
+}

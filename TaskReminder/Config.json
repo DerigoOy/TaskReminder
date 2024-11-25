@@ -1,0 +1,155 @@
+{
+  "Culture": 1035,
+  "WebAppPath": "http://pro3dev2019/fi",
+  "Send": false,
+  "LogCounts": true,
+  "SMTP": {
+    "Host": "smtp.ateafinland.fi",
+    "Port": 25,
+    "SSL": false,
+    "AllEmailsTo": "niklas.loise@derigo.fi",
+    "OnlySendTo": null
+  },
+  "Email": {
+    "Header": "Pro3: Muistutus tehtävistä",
+    "BodyTemplateFile": "mailbody.cshtml"
+  },
+  "ProjectFilters": [
+    {
+      "SiteUrl": "",
+      "Query": "<Where><And><Neq><FieldRef Name='ProjectStatus'/><Value Type='Choice'>5 Ohi</Value></Neq><Neq><FieldRef Name='ProjectStatus'/><Value Type='Choice'>8 Ei tarjota</Value></Neq></And></Where>"
+    }
+  ],
+  "ProjectTasks": [
+    {
+      "ListName": "ProjectRisksTasks",
+      "Enabled": false,
+      "Filters": [
+        {
+          "WeekDay": 5,
+          "OffsetDays": 7,
+          "UntilOffsetDays": -60
+        }
+      ]
+    },
+    {
+      "ListName": "ProjectVastuunjako",
+      "Enabled": false,
+      "FieldConfig": [
+        {
+          "DueDateField": "DueDate",
+          "StatusField": "Status",
+          "AssignedToField": "Responsible"
+        }
+      ],
+      "Filters": [
+        {
+          "WeekDay": 5,
+          "OffsetDays": 7,
+          "UntilOffsetDays": -60
+        }
+      ]
+    },
+    {
+      "ListName": "RakennusaikaisetVastuut",
+      "Enabled": false,
+      "FieldConfig": [
+        {
+          "DueDateField": "SopimusLuettu",
+          "StatusField": "SopimusLuettu_Complete",
+          "AssignedToField": "Vastuuhenkilo"
+        },
+        {
+          "DueDateField": "TESU",
+          "StatusField": "TESU_Complete",
+          "AssignedToField": "Vastuuhenkilo"
+        },
+        {
+          "DueDateField": "TTS",
+          "StatusField": "TTS_Complete",
+          "AssignedToField": "Vastuuhenkilo"
+        },
+        {
+          "DueDateField": "Aloitusedellytykset",
+          "StatusField": "Aloitusedellytykset_Complete",
+          "AssignedToField": "Vastuuhenkilo"
+        },
+        {
+          "DueDateField": "Aloituspalaveri",
+          "StatusField": "Aloituspalaveri_Complete",
+          "AssignedToField": "Vastuuhenkilo"
+        },
+        {
+          "DueDateField": "TyoAlkaa",
+          "StatusField": "TyoAlkaa_Complete",
+          "AssignedToField": "Vastuuhenkilo"
+        },
+        {
+          "DueDateField": "MestanVastaanotto",
+          "StatusField": "MestanVastaanotto_Complete",
+          "AssignedToField": "Vastuuhenkilo"
+        },
+        {
+          "DueDateField": "MalliAsennus",
+          "StatusField": "MalliAsennus_Complete",
+          "AssignedToField": "Vastuuhenkilo"
+        },
+        {
+          "DueDateField": "OsakohteenTarkastukset",
+          "StatusField": "OsakohteenTarkastukset_Complete",
+          "AssignedToField": "Vastuuhenkilo"
+        },
+        {
+          "DueDateField": "Vastaanottotarkastus",
+          "StatusField": "Vastaanottotarkastus_Complete",
+          "AssignedToField": "Vastuuhenkilo"
+        },
+        {
+          "DueDateField": "LoppuDokLoppuselvitys",
+          "StatusField": "LoppuDokLoppuselvitys_Complete",
+          "AssignedToField": "Vastuuhenkilo"
+        }
+      ],
+      "Filters": [
+        {
+          "Repeat": -1,
+          "UntilOffsetDays": -60
+        }
+      ]
+    }
+  ],
+  "ProcessTasks": [
+    {
+      "ListName": "Tasks",
+      "Enabled": false,
+      "Filters": [
+        {
+          "WeekDay": 5,
+          "OffsetDays": 7,
+          "UntilOffsetDays": -60
+        }
+      ]
+    }
+  ],
+  "MobileForms": {
+    "Notifications": {
+      "Enabled": false,
+      "Filters": [
+        {
+          "FieldName": "Created",
+          "WeekDay": 5,
+          "UntilOffsetDays": -7
+        }
+      ]
+    },
+    "WorkFlows": {
+      "Enabled": true,
+      "Filters": [
+        {
+          "OffsetDays": -1,
+          "Repeat":  -3
+        }
+      ]
+    }
+  }
+}

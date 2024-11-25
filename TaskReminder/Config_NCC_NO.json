@@ -1,0 +1,65 @@
+﻿{
+  "Culture": 1035,
+  "WebAppPath": "https://nccno.pro3.fi",
+  "Send": false,
+  "LogCounts": true,
+  "SMTP": {
+    "Host": "smtp.ateafinland.fi",
+    "Port": 25,
+    "SSL": false,
+    "AllEmailsTo": null,
+    "OnlySendTo": null
+  },
+  "Email": {
+    "Header": "Pro3: Oppgavepåminnelse",
+    "BodyTemplateFile": "mailbody.cshtml"
+  },
+  "ProjectFilters": [],
+  "ProjectTasks": [
+    {
+      "ListName": "ProjectRisksTasks",
+      "Enabled": true,
+      "Filters": [
+        {
+          "WeekDay": 5,
+          "OffsetDays": 7,
+          "UntilOffsetDays": -60
+        }
+      ]
+    }
+  ],
+  "ProcessTasks": [
+    {
+      "ListName": "Tasks",
+      "Enabled": true,
+      "Filters": [
+        {
+          "WeekDay": 5,
+          "OffsetDays": 7,
+          "UntilOffsetDays": -60
+        }
+      ]
+    }
+  ],
+  "MobileForms": {
+    "Notifications": {
+      "Enabled": true,
+      "Filters": [
+        {
+          "FieldName": "Created",
+          "WeekDay": 1,
+          "UntilOffsetDays": -7
+        }
+      ]
+    },
+    "WorkFlows": {
+      "Enabled": true,
+      "Filters": [
+        {
+          "OffsetDays": -1,
+          "Repeat": -3
+        }
+      ]
+    }
+  }
+}
